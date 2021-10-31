@@ -67,11 +67,11 @@ class data_manager():
         """  Method to save csv file of data. 
         """
         header = ["Rank", "Title", "Score", "Comments"]
-        data = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,data)))
+        data_mat = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,data)))
         with open(name_file+"_"+data+".csv", 'w', encoding= 'UTF8', newline='') as f:
             write = csv.writer(f)
             write.writerow(header)
-            write.writerows(data)
+            write.writerows(data_mat)
 
     def show_data(self, attrib):
         """ Method to print the data. 
