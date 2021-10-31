@@ -11,7 +11,7 @@ import argparse
 parser = argparse.ArgumentParser(description='Software to Filter Data extracted from Webpage: "https://news.ycombinator.com" ')
 parser.add_argument('type', type=str, help='Type of sorting (asc/ desc)',choices=['asc', 'desc'])
 parser.add_argument('arg', type=str, help='Argument to Sort', choices=['order', 'score', 'comments'])
-parser.add_argument('f_t', type=str, help='Type of Output File',choices=['csv', 'text', 'out'])
+parser.add_argument('f_t', type=str, help='Type of Output File',choices=['csv', 'txt', 'out'])
 parser.add_argument('name', type=str, help='Name of Output File')
 
 
