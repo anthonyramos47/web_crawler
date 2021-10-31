@@ -12,7 +12,7 @@ operations = {
 
 def parse_logic_op(string: str)-> tuple:
     """ Function to parse a string of the type "< 5", ">= 6", ">= 8". 
-    Ouput: operation:str , number: int.
+    Output: operation:str , number: int.
     """
     num = extract_num(string)
     op = extract_op(string)
