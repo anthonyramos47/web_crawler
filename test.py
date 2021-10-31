@@ -125,25 +125,25 @@ class TestSum(unittest.TestCase):
         data_news = spider.news 
 
         dat_man = data_manager(data_news)
-        dat_man.filt_title_more_5("score", "asc")
+        dat_man.filt_title_words_sort("score", "asc", ">5")
     
         filter_more_5_asc_score = set(map(lambda site: site.title, dat_man.op_data ))
         real_more_5_asc_score = set(map(lambda site: site.title, [site4, site2, site5]))
 
         dat_man.clear_op_data()
-        dat_man.filt_title_more_5("score", "desc")
+        dat_man.filt_title_words_sort("score", "desc",">5")
 
         filter_more_5_desc_score = set(map(lambda site: site.title, dat_man.op_data ))
         real_more_5_desc_score = set(map(lambda site: site.title, [site5, site2, site4]))
 
         dat_man.clear_op_data()
-        dat_man.filt_title_more_5("comments", "asc")
+        dat_man.filt_title_words_sort("comments", "asc",">5")
 
         filter_more_5_asc_com = set(map(lambda site: site.title, dat_man.op_data ))
         real_more_5_asc_com = set(map(lambda site: site.title, [site4, site5, site2]))
 
         dat_man.clear_op_data()
-        dat_man.filt_title_more_5("comments", "desc")
+        dat_man.filt_title_words_sort("comments", "desc",">5")
 
         filter_more_5_desc_com = set(map(lambda site: site.title, dat_man.op_data ))
         real_more_5_desc_com = set(map(lambda site: site.title, [site2, site5, site4]))

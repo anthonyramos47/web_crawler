@@ -3,7 +3,7 @@ Here is encoded the class data_manager, that allow us to perform operations
 on the data extracted with the spider class
 """
 from .news import news
-from .utils import word_count_str
+from .utils import comparator, parse_logic_op, word_count_str
 import csv
 
 class data_manager():
@@ -57,15 +57,15 @@ class data_manager():
         self.op_data = self.data
         
     ##--------------------------------METHODS TO SOLVE CHALLENGE----------------------------------#
-    def filt_title_more_5(self, arg, opt):
+    def filt_title_words_sort(self, arg: str, opt: str, filter_text: str):
         """ Method to filter data with more than 5 words in title and ascending order by score
         """
+        operation, num = parse_logic_op(filter_text)
+
         # Filter titles with more than 5 words
-        self.filter_news("title", lambda t: word_count_str(t) > 5 )
+        self.filter_news("title", lambda t: comparator(word_count_str(t), num, operation) )
         # Sort data by score 
         if opt.lower() == "asc": 
             self.sort_news_asc(arg)
         elif opt.lower() == "desc":
             self.sort_news_desc(arg)
-
-    
