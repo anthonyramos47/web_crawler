@@ -2,3 +2,5 @@
 [0m2021.10.30 19:34:22 INFO  time: initialize in 4.28s[0m
 [0m2021.10.30 19:34:24 WARN  Build server is not auto-connectable.[0m
 [0m2021.10.30 19:34:24 WARN  no build tool detected in workspace '/home/anthony/Trabajo/StackBuilders/web_crawler'. The most common cause for this problem is that the editor was opened in the wrong working directory, for example if you use sbt then the workspace directory should contain build.sbt. [0m
+Oct 30, 2021 10:06:50 PM org.eclipse.lsp4j.jsonrpc.services.GenericEndpoint notify
+INFO: Unsupported notification method: $/setTrace
