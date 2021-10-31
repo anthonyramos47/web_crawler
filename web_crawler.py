@@ -1,6 +1,6 @@
 
-from sites_spider import * 
-from data_manager import data_manager
+from library.sites_spider import * 
+from library.data_manager import data_manager
 
 
 def main():

@@ -1,5 +1,5 @@
-from news import news
-from utils import word_count_str
+from .news import news
+from .utils import word_count_str
 import csv
 
 class data_manager():

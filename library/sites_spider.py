@@ -1,7 +1,7 @@
 #from os import name, write
-from spider import *
-from news import news
-from utils import extract_num, extract_num_str, word_count_str
+from .spider import *
+from .news import news
+from .utils import extract_num, extract_num_str, word_count_str
 
 class news_spider(spider):
     """ Class news_spider to extract data from website. Inherited from class spider
