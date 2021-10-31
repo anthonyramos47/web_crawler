@@ -1,5 +1,5 @@
 from os import name, write
-from .spider import *
+from spider import *
 import csv
 
 
@@ -15,8 +15,14 @@ def extract_num_str(string: str):
 
 
 class news():
-
-    def __init__(self, title: str, order: int, score: int, comments: int )-> None: 
+    """ Class news. Describe one entry of Website https://news.ycombinator.com
+        attributes:
+            title: str
+            order: int
+            score: int
+            comments: int
+    """
+    def __init__(self, title: str, order: int, score: int, comments: int )-> None:
         self.title = title
         self.order = order 
         self.score = score 
@@ -27,81 +33,118 @@ class news():
 
 
 class news_spider(spider):
+    """ Class news_spider to extract data from website. Inherited from class spider
+        url: str
+        news: list of news class
+    """
+
     def __init__(self, url : str, news = []) -> None:
         spider.__init__(self, url)
         self.news = news
         self.calc = self.news
 
     def set_news(self)-> None:
+        """ Setter of news
+        """
         self.news = self.get_News()
 
     def dic_scores(self)-> dict:
-        dic = {}
+        """ Create Dictionary of the form {"id": score: int}
+        """
+        # Create the dictionary
+        dic = {} 
+        # Filter with class "score"
         filt_class = self.soup.find_all(class_="score")
+        # For all elements in filt class
         for el in filt_class:
+            # Get the Id
             id = extract_num_str(el.attrs["id"])
+            # Get the value of score
             val = extract_num(el.get_text())
+            # Store information in dictionary
             dic[id] = val
+        # Return Dictionary
         return dic
 
     def dic_comments(self)-> dict:
+        """ Create Dictionary of the form {"id": comments: int}
+        """
+        # Create the dictionary
         dic = {}
-        filt_class = self.soup.find_all("a",  href= lambda href:  href and "item?id" in href, string = lambda text : "comments" in text.lower())
+        # Filter with href with string comments
+        filt_class = self.soup.find_all("a", \
+                href= lambda href:  href and "item?id" in href,\
+                string = lambda text : "comments" in text.lower())
+        # For all elements in filt class
         for el in filt_class:
+            # Get the Id
             id = extract_num_str(el.attrs["href"])
+            # Get the value of comments
             val = extract_num(el.get_text())
+             # Store information in dictionary
             dic[id] = val
+        # Return Dictionary
         return dic
 
 
     def get_News(self)-> list:
+        """ Function to extract all the news entries in the webpage. 
+        """
 
-        pages = self.soup.find_all("tr", class_="athing")
+        # From the soup extract all the elements with class athing
+        sites = self.soup.find_all("tr", class_="athing")
+        # Get dictionary of id comments
         dic_scs = self.dic_comments()
+        # Get dictionary of id scores
         dic_com = self.dic_scores()
         
+        # Initialize list of news
         ls = []
-        for pg in pages:
+        
+        # For element in sites
+        for pg in sites:
+            # Get id
             id = pg.attrs["id"]
+            # Get title
             title_n = pg.find("a", class_="titlelink").get_text() 
+            # Get rank
             rank_n = extract_num(pg.find("span", class_="rank").get_text())
+            # Get number of comments from dictionary of comments
             comm_n = self.set_val_news(dic_com, id)
+            # Get scores of dictionary of scores
             score_n = self.set_val_news(dic_scs, id)
+            # Append news to list
             ls.append(news(title= title_n, order= rank_n, comments= comm_n, score= score_n ))
-
+        # Return list
         return ls
 
     def set_val_news(self, dic: dict, id: int) -> int:
+        """ Set values of news from dictionary at id.
+            Input: 
+                dic: dict
+                id: int
+            Output:
+                val int                
+        """
+        # In case no value found on dictionary assign value of 0
         try:
             val = dic[id]
         except:
             val = 0
+
+        # Return value
         return val
 
-    def __str__(self) -> str:
-        return self.show_pages(self.news)
-    
-
-    def show_pages(self, ls_news: str)-> str:
+    def show_sites(self)-> str:
+        """ Function to show the list of news extracted from URL.
+        """
         string = ""
-        for el in ls_news:
+        for el in self.news:
             string += str(el)+"\n"
         return string
-
-    def print_pages(self, ls_news: str)-> None:
-        print(self.show_pages(ls_news))
-
-    def save_pages(self, ls_news: news, name_file: str)-> None:
-        file_to_save = open(name_file, "w")
-        file_to_save.write(self.show_pages(ls_news))
-
-    def save_csv(self, ls_news: news, name_file: str )-> None:
-        header = ["Rank", "Title", "Score", "Comments"]
-        data = list(map( lambda n : [n.order, n.title, n.score, n.comments] , ls_news))
-        with open(name_file+str(".csv"), 'w', encoding= 'UTF8', newline='') as f:
-            write = csv.writer(f)
-            write.writerow(header)
-            write.writerows(data)
+    
+    def __str__(self) -> str:
+        return self.show_sites()    
 
 
 def main():
@@ -110,11 +153,7 @@ def main():
 
     spidy = news_spider(URL)
     spidy.set_news()
-    ls_news = spidy.news
-    filt = spidy.filter_news(ls_news, "title", lambda x : word_count_str(x) > 5)
-    sort = spidy.sort_news_desc(filt, "score")
-    spidy.save_pages(sort,"Desc_order.txt")
-    spidy.save_csv(sort, "Desc_order")
+    print(spidy)
     
 
 main()
