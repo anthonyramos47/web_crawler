@@ -41,33 +41,44 @@ class data_manager():
         # Attribute where we store all modified data
         self.op_data = self.data
 
-    def sort_news_asc(self, attrib: str)-> list:
+    def sort_news_asc(self, attrib: str)-> None:
+        """ Ascending Sort according to attribute of data
+        """
         self.op_data.sort(key=lambda ky: getattr(ky,attrib))
 
-    def sort_news_desc(self, attrib: str)-> list:
+    def sort_news_desc(self, attrib: str)-> None :
+        """ Descending Sort according to attribute of data
+        """
         self.op_data.sort(key=lambda ky: getattr(ky,attrib), reverse= True)  
            
-    def filter_news(self,attrib: str, __boolF)-> list:
+    def filter_news(self,attrib: str, __boolF)-> None:
+        """ Method to filter data w.r.t attribute "attrib", and function __boolF (data.attrib -> bool)
+        """
         self.op_data = filter(lambda new: __boolF(getattr(new, attrib)), self.op_data)
 
-    def save_file(self, attrib: str, name_file: str)-> None:
-        file_to_save = open(name_file+"_"+attrib+".txt", "w")
-        for el in getattr(self, attrib):
+    def save_file(self, data: str, name_file: str)-> None:
+        """ Method to save data in file. 
+        """
+        file_to_save = open(name_file+"_"+data+".txt", "w")
+        for el in getattr(self, data):
             file_to_save.write(str(el))
 
-    def save_csv(self, attrib: str, name_file: str )-> None:
+    def save_csv(self, data: str, name_file: str )-> None:
+        """  Method to save csv file of data. 
+        """
         header = ["Rank", "Title", "Score", "Comments"]
-        data = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,attrib)))
-        with open(name_file+"_"+attrib+".csv", 'w', encoding= 'UTF8', newline='') as f:
+        data = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,data)))
+        with open(name_file+"_"+data+".csv", 'w', encoding= 'UTF8', newline='') as f:
             write = csv.writer(f)
             write.writerow(header)
             write.writerows(data)
 
     def show_data(self, attrib):
+        """ Method to print the data. 
+        """
         for el in getattr(self, attrib):
             print(el)
         
-
 
 class news_spider(spider):
     """ Class news_spider to extract data from website. Inherited from class spider
