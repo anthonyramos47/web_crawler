@@ -106,6 +106,53 @@ class TestSum(unittest.TestCase):
         self.assertEqual(filter_sites_long, sites_long, "Wrong Filtering Long Strings")
         self.assertEqual(filter_sites_short, sites_short, "Wrong Filtering Short Strings")
 
+    def test_filter_sort(self):
+
+        print("Test Filter Words Plus Sort")
+        #spider = news_spider("https://news.ycombinator.com")
+
+        site1 = news(title  = "Short Title 1", order = 2, score = 100, comments = 500 ) 
+        site2 = news(title  = "This is a Long Title for Testing 1", order = 3, score = 110, comments = 820 ) 
+        site3 = news(title  = "Short Title 2", order = 4, score = 10, comments = 0 ) 
+        site4 = news(title  = "This is a Long Title for Testing 2", order = 5, score = 0, comments = 1 ) 
+        site5 = news(title  = "This is a Long Title for Testing 3", order = 1, score = 250, comments = 580 ) 
+
+        sites = [site1, site2, site3, site4, site5]
+
+      
+        spider = news_spider("TESTURL", sites)
+        
+        data_news = spider.news 
+
+        dat_man = data_manager(data_news)
+        dat_man.filt_title_more_5("score", "asc")
+    
+        filter_more_5_asc_score = set(map(lambda site: site.title, dat_man.op_data ))
+        real_more_5_asc_score = set(map(lambda site: site.title, [site4, site2, site5]))
+
+        dat_man.clear_op_data()
+        dat_man.filt_title_more_5("score", "desc")
+
+        filter_more_5_desc_score = set(map(lambda site: site.title, dat_man.op_data ))
+        real_more_5_desc_score = set(map(lambda site: site.title, [site5, site2, site4]))
+
+        dat_man.clear_op_data()
+        dat_man.filt_title_more_5("comments", "asc")
+
+        filter_more_5_asc_com = set(map(lambda site: site.title, dat_man.op_data ))
+        real_more_5_asc_com = set(map(lambda site: site.title, [site4, site5, site2]))
+
+        dat_man.clear_op_data()
+        dat_man.filt_title_more_5("comments", "desc")
+
+        filter_more_5_desc_com = set(map(lambda site: site.title, dat_man.op_data ))
+        real_more_5_desc_com = set(map(lambda site: site.title, [site2, site5, site4]))
+
+        self.assertEqual(filter_more_5_asc_com, real_more_5_asc_com, "Wrong Filtering Ascending Comments")
+        self.assertEqual(filter_more_5_asc_score, real_more_5_asc_score, "Wrong Filtering Ascending Score")
+        self.assertEqual(filter_more_5_desc_com, real_more_5_desc_com, "Wrong Filtering Descending Comments")
+        self.assertEqual(filter_more_5_desc_score, real_more_5_desc_score, "Wrong Filtering Descending Score")
+
 
 if __name__ == '__main__':
     unittest.main()
