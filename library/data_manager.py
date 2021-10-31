@@ -29,7 +29,7 @@ class data_manager():
     def save_file(self, data: str, name_file: str)-> None:
         """ Method to save data in file. 
         """
-        file_to_save = open(name_file+"_"+data+".txt", "w")
+        file_to_save = open(name_file, "w")
         for el in getattr(self, data):
             file_to_save.write(str(el))
 
@@ -38,7 +38,7 @@ class data_manager():
         """
         header = ["Rank", "Title", "Score", "Comments"]
         data_mat = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,data)))
-        with open(name_file+"_"+data+".csv", 'w', encoding= 'UTF8', newline='') as f:
+        with open(name_file+".csv", 'w', encoding= 'UTF8', newline='') as f:
             write = csv.writer(f)
             write.writerow(header)
             write.writerows(data_mat)
@@ -53,36 +53,15 @@ class data_manager():
         self.op_data = self.data
         
     ##--------------------------------METHODS TO SOLVE CHALLENGE----------------------------------#
-    def filt_tit_more_5_scs_asc(self):
+    def filt_title_more_5(self, arg, opt):
         """ Method to filter data with more than 5 words in title and ascending order by score
         """
         # Filter titles with more than 5 words
         self.filter_news("title", lambda t: word_count_str(t) > 5 )
         # Sort data by score 
-        self.sort_news_asc("score")
+        if opt.lower() == "asc": 
+            self.sort_news_asc(arg)
+        elif opt.lower() == "desc":
+            self.sort_news_desc(arg)
+
     
-    def filt_tit_more_5_com_asc(self):
-        """ Method to filter data with more than 5 words in title and ascending order by score
-        """
-        # Filter titles with more than 5 words
-        self.filter_news("title", lambda t: word_count_str(t) > 5 )
-        # Sort data by score 
-        self.sort_news_asc("comments")
-    
-    def filt_tit_more_5_scs_asc(self):
-        """ Method to filter data with more than 5 words in title and ascending order by score
-        """
-        # Filter titles with more than 5 words
-        self.filter_news("title", lambda t: word_count_str(t) > 5 )
-        # Sort data by score 
-        self.sort_news_desc("score")
-
-    def filt_tit_more_5_com_asc(self):
-        """ Method to filter data with more than 5 words in title and ascending order by score
-        """
-        # Filter titles with more than 5 words
-        self.filter_news("title", lambda t: word_count_str(t) > 5 )
-        # Sort data by score 
-        self.sort_news_desc("comments")
-
-
