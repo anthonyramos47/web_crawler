@@ -1,4 +1,6 @@
-#from os import name, write
+""" Module site spider.
+Here is define the class news_spider that allow us to extract and show the data from the URL https://news.ycombinator.com 
+"""
 from .spider import *
 from .news import news
 from .utils import extract_num, extract_num_str, word_count_str

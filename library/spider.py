@@ -1,3 +1,7 @@
+"""Module spider.
+Define a generic spider class that extract information from a url using 
+BeautifulSoup library
+"""
 import requests
 from bs4 import BeautifulSoup as BS
 

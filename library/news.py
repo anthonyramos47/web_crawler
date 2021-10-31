@@ -1,4 +1,7 @@
-
+""" Module news.
+Here is encoded all the information of the class news, which make reference to
+the news sites found on the website: https://news.ycombinator.com
+"""
 
 class news():
     """ Class news. Describe one entry of Website https://news.ycombinator.com

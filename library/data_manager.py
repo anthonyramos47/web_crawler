@@ -1,3 +1,7 @@
+"""Module data_manager.
+Here is encoded the class data_manager, that allow us to perform operations 
+on the data extracted with the spider class
+"""
 from .news import news
 from .utils import word_count_str
 import csv

@@ -1,13 +1,17 @@
+""" Web Crawler Data Filtering and Sortering.
+    Input: type of sorting, argument to sort, type of output fle, name output file
 
+    python web_crawler.py <Type of Sorting> <Argument to Sort> <Type of Output File> <Name of Output File>
+"""
 from library.sites_spider import * 
 from library.data_manager import data_manager
 
 import argparse
 
 parser = argparse.ArgumentParser(description='Software to Filter Data extracted from Webpage: "https://news.ycombinator.com" ')
-parser.add_argument('type', type=str, help='Type or sorting (asc/ desc)',choices=['asc', 'desc'])
-parser.add_argument('arg', type=str, help='Argument for Sorting', choices=['order', 'score', 'comments'])
-parser.add_argument('f_t', type=str, help='Type of output file',choices=['csv', 'text', 'out'])
+parser.add_argument('type', type=str, help='Type of sorting (asc/ desc)',choices=['asc', 'desc'])
+parser.add_argument('arg', type=str, help='Argument to Sort', choices=['order', 'score', 'comments'])
+parser.add_argument('f_t', type=str, help='Type of Output File',choices=['csv', 'text', 'out'])
 parser.add_argument('name', type=str, help='Name of Output File')
 
 
