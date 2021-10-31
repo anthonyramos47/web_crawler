@@ -32,6 +32,43 @@ class news():
         return "{}> Title: {}\n    Score:{}\t Comments: {}\n".format(self.order, self.title, self.score, self.comments)
 
 
+class data_manager():
+    """ Class to manage data. This class will manage the filters and the sorters
+    """
+    def __init__(self, data: list) -> None:
+        # Raw data imported 
+        self.data = data  
+        # Attribute where we store all modified data
+        self.op_data = self.data
+
+    def sort_news_asc(self, attrib: str)-> list:
+        self.op_data.sort(key=lambda ky: getattr(ky,attrib))
+
+    def sort_news_desc(self, attrib: str)-> list:
+        self.op_data.sort(key=lambda ky: getattr(ky,attrib), reverse= True)  
+           
+    def filter_news(self,attrib: str, __boolF)-> list:
+        self.op_data = filter(lambda new: __boolF(getattr(new, attrib)), self.op_data)
+
+    def save_file(self, attrib: str, name_file: str)-> None:
+        file_to_save = open(name_file+"_"+attrib+".txt", "w")
+        for el in getattr(self, attrib):
+            file_to_save.write(str(el))
+
+    def save_csv(self, attrib: str, name_file: str )-> None:
+        header = ["Rank", "Title", "Score", "Comments"]
+        data = list(map( lambda n : [n.order, n.title, n.score, n.comments] , getattr(self,attrib)))
+        with open(name_file+"_"+attrib+".csv", 'w', encoding= 'UTF8', newline='') as f:
+            write = csv.writer(f)
+            write.writerow(header)
+            write.writerows(data)
+
+    def show_data(self, attrib):
+        for el in getattr(self, attrib):
+            print(el)
+        
+
+
 class news_spider(spider):
     """ Class news_spider to extract data from website. Inherited from class spider
         url: str
@@ -153,7 +190,10 @@ def main():
 
     spidy = news_spider(URL)
     spidy.set_news()
-    print(spidy)
+    list_news = spidy.news
+    dat_man = data_manager(list_news)
+    dat_man.filter_news("title", lambda t: word_count_str(t) < 5 )
+    dat_man.save_csv("op_data", "Filter_data")
     
 
 main()
