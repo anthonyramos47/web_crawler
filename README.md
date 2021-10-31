@@ -25,7 +25,7 @@ Run the code:
 python web_crawler.py <Type of Sorting> <Argument to Sort> <Type of Output File> <Name of Output File>
 ```
 * **Type of Sorting** .- Define if the sort is ascending (asc) or descending (desc)
-* **Argument to Sort**.- Specify with argument from the data you want to sort (Number of order, Number of comments, points/score )
+* **Argument to Sort**.- Specify with argument from the data you want to sort (Number of order: ord, Number of comments: comments, points/score: score )
 * **Type of Output File**.- Define with kind of output file do you requirer (csv, txt, out). The option csv is think for further data processing of the filtered data. The options *txt*, *out* are think for visualization of the user.
 * **Name of Output File**.- Specify the name of your output file
   
